@@ -11,7 +11,7 @@
 
     <servlet-mapping>
         <servlet-name>UsuarioServlet</servlet-name>
-        <url-pattern>/usuarios</url-pattern>
+        <url-pattern>/usuarios</url-pattern>	
     </servlet-mapping>
 
     <welcome-file-list>

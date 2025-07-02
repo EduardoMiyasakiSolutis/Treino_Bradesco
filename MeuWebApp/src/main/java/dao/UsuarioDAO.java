@@ -54,4 +54,65 @@ public class UsuarioDAO {
 		}
 		return usuariosList;
 	}
+
+	public boolean deleteByID(int id) {
+
+		String sql = "DELETE FROM usuario WHERE idUsuario = ?";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, id);
+
+			int linhasAfetadas = stmt.executeUpdate();
+			return linhasAfetadas > 0;
+
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao deletar usuário" + e.getMessage());
+		}
+	}
+
+	public Usuario findById(int id) {
+
+		String sql = "SELECT * FROM usuario WHERE idUsuario = ?";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, id);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Usuario u = new Usuario();
+
+			while (rs.next()) {
+				u.setId(rs.getInt("idUsuario"));
+				u.setEmail(rs.getString("email"));
+				u.setNome(rs.getString("nome"));
+			}
+			return u;
+		} catch (Exception e) {
+			throw new RuntimeException("Usuário não encontrado!" + e.getMessage());
+		}
+	}
+
+	public int updateUser(Usuario user) {
+
+		String sql = "UPDATE usuario set nome = ?, email = ? WHERE idUsuario = ?";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, user.getNome());
+			stmt.setString(2, user.getEmail());
+			stmt.setInt(3, user.getId());
+
+			int linhasAfetadas = stmt.executeUpdate();
+			return linhasAfetadas;
+
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao atualizar usuário" + e.getMessage());
+		}
+
+	}
 }
